@@ -1,7 +1,7 @@
 # Личный проект «Пиксель хантер» [![Build status][travis-image]][travis-url]
 
 * Студент: [Надежда Будянская](https://up.htmlacademy.ru/ecmascript/4/user/200132).
-* Наставник: `Неизвестно`.
+* Наставник:[нет].
 
 ---
 
