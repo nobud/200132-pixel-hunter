@@ -6,9 +6,8 @@ class ScreenGameOneImg extends ScreenGame {
   }
 
   onAnswerClick() {
-    let optionAnswers = this.gameContent.querySelectorAll(`input[type="radio"]`);
-    if (this.isAnswered(optionAnswers)) {
-      this.setAnswer(optionAnswers);
+    if (this.isAnswered(this.view.optionAnswers)) {
+      this.setAnswer(this.view.optionAnswers);
       super.onAnswerClick();
     }
   }
