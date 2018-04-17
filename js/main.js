@@ -1,6 +1,5 @@
-import {showScreen} from './util';
-import intro from './screen/intro';
+import {ScreenController} from './game/screen-controller';
+import {tasks} from './data/data';
 
-const showFirstScreen = () => showScreen(intro);
-
-showFirstScreen();
+const screenController = new ScreenController(tasks);
+screenController.showStartScreen();
