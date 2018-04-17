@@ -1,3 +1,7 @@
+const evtNext = `toNext`;
+const evtBack = `toBack`;
+const evtFinishedTask = `finishedTask`;
+
 const getElementFromTemplate = (templateContent) => {
   const tag = `div`;
   const element = document.createElement(tag);
@@ -12,4 +16,12 @@ const showScreen = (screen) => {
   parentScreen.appendChild(screen);
 };
 
-export {getElementFromTemplate, showScreen};
+const createCustomEvent = (eventText) => {
+  const customEvent = new CustomEvent(eventText, {
+    bubbles: true,
+    cancellable: false
+  });
+  window.dispatchEvent(customEvent);
+};
+
+export {getElementFromTemplate, showScreen, createCustomEvent, evtNext, evtBack, evtFinishedTask};

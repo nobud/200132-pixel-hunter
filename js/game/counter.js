@@ -1,7 +1,3 @@
-const Counter = function (time) {
-  this.value = time;
-};
-
 const getCounter = (time) => {
   if (time > 0) {
     return new Counter(time);
@@ -10,13 +6,18 @@ const getCounter = (time) => {
   return null;
 };
 
-Counter.prototype = {
+class Counter {
+  constructor(time) {
+    this.value = time;
+  }
+
   getValue() {
     return this.value;
-  },
+  }
+
   tick() {
     return getCounter(this.value - 1);
   }
-};
+}
 
 export default getCounter;
