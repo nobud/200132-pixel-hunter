@@ -1,20 +1,13 @@
 import {ScreenGame, TypeValueToTypeImage} from './screen-game';
 
 class ScreenGameThreeImg extends ScreenGame {
-  // src=${option.srcImage}
-  getOption(option, index) {
-    return `
-    <div class="game__option">
-      <img alt="Option ${index + 1}" width=${this.widthOption} height=${this.heightOption}>
-    </div>`;
-  }
 
   isAnswered(evt) {
-    return evt.target.closest(`.game__option`);
+    return this.view.getClickedGameOption(evt.target);
   }
 
   setAnswer(clickedOption) {
-    const indexOption = this.getIndexOption(clickedOption);
+    const indexOption = this.view.getIndexGameOption(clickedOption);
     this.setSelectedValue(indexOption, TypeValueToTypeImage.photo);
   }
 

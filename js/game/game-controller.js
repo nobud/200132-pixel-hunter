@@ -1,6 +1,6 @@
 import {GameData} from './game-data';
 import {Result} from './result';
-import {evtFinishedTask, evtBack, evtNext, createCustomEvent} from '../util';
+import {evtAnsweredTask, evtExpiredTimer, evtBack, evtNext, createCustomEvent} from '../util';
 import results from '../data/results';
 
 const TypeStatusGame = {
@@ -13,8 +13,15 @@ class GameController {
   constructor(gameData) {
     this.data = gameData;
     this.initData();
-    window.addEventListener(evtFinishedTask, this.onFinishTask.bind(this));
-    window.addEventListener(evtBack, this.onGoToBack.bind(this));
+    window.addEventListener(evtAnsweredTask, () => {
+      this.onAnswerTask();
+    });
+    window.addEventListener(evtExpiredTimer, () => {
+      this.onExpiredTimer();
+    });
+    window.addEventListener(evtBack, () => {
+      this.onGoToBack();
+    });
   }
 
   initData() {
@@ -23,14 +30,24 @@ class GameController {
     this.currentTaskIndex = -1;
   }
 
-  onFinishTask() {
-    let task = this.getCurrentTask();
-    task.finish();
+  completeTask(task) {
     this.saveCurrentAnswer(task.typeAnswer);
     if (this.data.isAnswerWrong(this.currentTaskIndex)) {
       this.loseLife();
     }
     createCustomEvent(evtNext);
+  }
+
+  onAnswerTask() {
+    let task = this.getCurrentTask();
+    task.finish();
+    this.completeTask(task);
+  }
+
+  onExpiredTimer() {
+    let task = this.getCurrentTask();
+    task.expired();
+    this.completeTask(task);
   }
 
   onGoToBack() {

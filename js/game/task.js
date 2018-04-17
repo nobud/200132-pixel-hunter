@@ -2,6 +2,8 @@ import {EstimationTask} from './estimation-task';
 import {TypeAnswer} from './type-answer';
 import definition from '../data/definition';
 import {Option} from './option';
+import {Timer} from './timer';
+import {createCustomEvent, evtTickTimer, evtRefreshTime} from '../util';
 
 class Task {
   constructor(task) {
@@ -10,30 +12,47 @@ class Task {
     this.options = task.options.map((option) => {
       return new Option(option);
     });
-    this._time = definition.maxTimeForAnswer;
+    this.time = definition.maxTimeForAnswer;
     this.estimator = new EstimationTask(task.type);
     this.isFinished = false;
     this.typeAnswer = TypeAnswer.UNKNOWN;
+    window.addEventListener(evtTickTimer, () => {
+      this.onTick();
+    });
   }
 
-  get time() {
-    return definition.maxTimeForAnswer - this._time;
+  start() {
+    this.timer = new Timer(definition.maxTimeForAnswer);
+    this.timer.start();
+  }
+
+  onTick() {
+    this.time = this.timer.value;
+    createCustomEvent(evtRefreshTime, this.time);
+  }
+
+  getTime() {
+    return definition.maxTimeForAnswer - this.time;
+  }
+
+  save(time) {
+    this.setTypeAnswer(time);
+    this.isFinished = true;
   }
 
   setTypeAnswer(time) {
     this.typeAnswer = this.estimator.getTypeAnswerTotal(this.options, time);
   }
 
-  setTime() {
-    const TEST_TIME = 15;
-    this._time = TEST_TIME;
+  finish() {
+    this.timer.stop();
+    this.save(this.getTime());
   }
 
-  finish() {
-    this.isFinished = true;
-    this.setTime();
-    this.setTypeAnswer(this.time);
+  expired() {
+    this.save(this.getTime() + 1);
   }
+
 }
 
 export {Task};

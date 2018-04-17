@@ -2,11 +2,8 @@ import {ScreenGame} from './screen-game';
 
 class ScreenGameTwoImg extends ScreenGame {
   onAnswerClick() {
-    let optionsAnswers = [];
-    optionsAnswers.push(this.gameContent.querySelectorAll(`input[name="question1"]`));
-    optionsAnswers.push(this.gameContent.querySelectorAll(`input[name="question2"]`));
-    if (this.isAnswered(optionsAnswers)) {
-      this.setAnswer(optionsAnswers);
+    if (this.isAnswered(this.view.optionsAnswers)) {
+      this.setAnswer(this.view.optionsAnswers);
       super.onAnswerClick();
     }
   }

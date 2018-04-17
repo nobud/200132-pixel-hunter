@@ -1,4 +1,3 @@
-import {showScreen} from '../util';
 import {TypeScreen, ScreenDictionary} from './screen-dictionary';
 import {GameController} from './game-controller';
 import {evtNext, evtBack} from '../util';
@@ -111,17 +110,17 @@ class ScreenController {
 
   showStartScreen() {
     let screen = this.getStartScreen();
-    showScreen(screen.elementDOM);
+    screen.showView();
   }
 
   showBackScreen() {
     let screen = this.getBackScreen();
-    showScreen(screen.elementDOM);
+    screen.showView();
   }
 
   showNextScreen() {
     let screen = this.getNextScreen();
-    showScreen(screen.elementDOM);
+    screen.showView();
   }
 }
 

@@ -59,13 +59,13 @@ class EstimationTask {
     if (time > definition.rangeTimeNormalAnswer.max) {
       return TypeAnswer.SLOW;
     }
-    if (time > definition.maxTimeForAnswer) {
-      return TypeAnswer.WRONG;
-    }
     return TypeAnswer.NORMAL;
   }
 
   getTypeAnswerTotal(options, time) {
+    if (time > definition.maxTimeForAnswer) {
+      return TypeAnswer.WRONG;
+    }
     if (this.isAnswerTotalUnknown(options)) {
       return TypeAnswer.UNKNOWN;
     }

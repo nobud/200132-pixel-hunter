@@ -2,7 +2,6 @@ const getCounter = (time) => {
   if (time > 0) {
     return new Counter(time);
   }
-
   return null;
 };
 
