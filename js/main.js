@@ -1,5 +1,5 @@
-import {ScreenController} from './game/screen-controller';
-import {tasks} from './data/data';
+import {Application} from './application';
 
-const screenController = new ScreenController(tasks);
-screenController.showStartScreen();
+// const application = new Application();
+// application.showStartScreen();
+Application.showWelcome();

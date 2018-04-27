@@ -1,6 +1,6 @@
-import {TypeAnswer} from '../game/type-answer';
-import {Answer} from '../game/answer';
-import definition from './definition';
+import {TypeAnswer} from '../presenter/game-helper/type-answer';
+import {Answer} from '../model/answer';
+import definition from '../definition';
 
 const getTestAnswers = (typeAnswer, numberAnswers = definition.numberOfRequiredAnswers) => {
   const answers = [];
