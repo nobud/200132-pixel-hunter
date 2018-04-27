@@ -1,5 +1,5 @@
-import definition from './definition';
-import {TypeImage} from '../game/option';
+import definition from '../definition';
+import {TypeImage} from '../model/option';
 
 const tasks = [
   {

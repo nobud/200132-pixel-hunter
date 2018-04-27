@@ -4,6 +4,7 @@ const evtAnsweredTask = `answeredTask`;
 const evtExpiredTimer = `expiredTimer`;
 const evtTickTimer = `tickTimer`;
 const evtRefreshTime = `refreshTime`;
+const evtLoadView = `loadView`;
 
 const getElementFromTemplate = (templateContent) => {
   const tag = `div`;
@@ -12,10 +13,14 @@ const getElementFromTemplate = (templateContent) => {
   return element;
 };
 
-const showScreen = (screen) => {
+const showElement = (element) => {
   const parentScreen = document.querySelector(`main.central`);
   parentScreen.innerHTML = ``;
-  parentScreen.appendChild(screen);
+  parentScreen.appendChild(element);
+};
+
+const changeScreen = (screen, data = null, state = null) => {
+  screen.init(data, state);
 };
 
 const createCustomEvent = (eventText, additional) => {
@@ -41,4 +46,5 @@ const getNewSizeImage = (sizeElement, sizeContainer) => {
   return sizeElement;
 };
 
-export {getElementFromTemplate, showScreen, createCustomEvent, evtNext, evtBack, evtAnsweredTask, evtExpiredTimer, evtTickTimer, evtRefreshTime, getNewSizeImage};
+export {getElementFromTemplate, showElement, changeScreen, createCustomEvent, evtNext, evtBack, evtAnsweredTask,
+  evtLoadView, evtExpiredTimer, evtTickTimer, evtRefreshTime, getNewSizeImage};
