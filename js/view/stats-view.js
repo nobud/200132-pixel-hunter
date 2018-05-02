@@ -1,9 +1,9 @@
 import {getHeader} from './header/header-template';
 import getFooter from './footer/footer-template';
 import getStatsTemplate from './stats-result/stats-result-template';
-import {AbstractView} from './abstract-view';
+import {ViewAbstract} from './view-abstract';
 
-class StatsView extends AbstractView {
+class StatsView extends ViewAbstract {
   constructor(results) {
     super();
     this.results = results;

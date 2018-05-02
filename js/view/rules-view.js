@@ -1,9 +1,9 @@
 import {getHeader} from './header/header-template';
 import getFooter from './footer/footer-template';
-import definition from '../definition';
-import {AbstractView} from './abstract-view';
+import definition from '../model/definition';
+import {ViewAbstract} from './view-abstract';
 
-class RulesView extends AbstractView {
+class RulesView extends ViewAbstract {
 
   get htmlTemplate() {
     return this.getArticle();

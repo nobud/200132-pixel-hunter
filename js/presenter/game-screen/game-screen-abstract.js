@@ -14,6 +14,13 @@ class GameScreenAbstract extends ScreenAbstract {
     this.initOtherHandlers();
   }
 
+  onBackElementClick() {
+    // добавить диалоговое окно
+    // if (confirm(`При переходе назад к приветственному экрану\nигра будет отменена, а ответы потеряны.\nВыполнить переход?`)) {
+    super.onBackElementClick();
+    // }
+  }
+
   getSelectedValue(valueOption) {
     return valueOption;
   }

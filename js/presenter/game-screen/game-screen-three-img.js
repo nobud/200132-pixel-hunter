@@ -1,6 +1,6 @@
 import {GameScreenAbstract} from './game-screen-abstract';
 import {TypeValueToTypeImage} from '../../model/option';
-import {createCustomEvent, evtAnsweredTask} from '../../util';
+import {createCustomEvent, evtAnsweredTask} from '../../util/util';
 
 class GameScreenThreeImg extends GameScreenAbstract {
 

@@ -1,14 +1,15 @@
-import definition from '../definition';
+import definition from './definition';
 import {Answer} from './answer';
 import {Task} from './task';
 
 class GameModel {
-  constructor(tasks) {
+  constructor(userName, tasks) {
     this.initState();
-    this.initData(tasks);
+    this.initData(userName, tasks);
   }
 
-  initData(tasks) {
+  initData(userName, tasks) {
+    this._user = userName;
     this.data = tasks;
     this.tasks = tasks.map((task) => {
       return new Task(task);
@@ -28,10 +29,19 @@ class GameModel {
     this.state.time = definition.maxTimeForAnswer;
     this.state.numberLives = definition.maxLives;
     this.state.answers = this.initAnswers();
+    this.state.result = null;
+  }
+
+  get user() {
+    return this._user;
   }
 
   saveAnswer(index, answer) {
     this.state.answers[index].type = answer;
+  }
+
+  saveResult(result) {
+    this.state.result = result;
   }
 
   loseLife() {
@@ -72,7 +82,7 @@ class GameModel {
 
   reset() {
     this.initState();
-    this.initData(this.data);
+    this.initData(this.user, this.data);
   }
 }
 

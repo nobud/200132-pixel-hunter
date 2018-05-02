@@ -1,4 +1,4 @@
-import definition from '../../definition';
+import definition from '../../model/definition';
 
 const Points = {
   RIGHT: 100,
@@ -12,7 +12,8 @@ const textLoose = `Поражение`;
 const textScoreFail = `FAIL`;
 
 class Result {
-  constructor(answers) {
+  constructor(userName, answers) {
+    this._user = userName;
     this.answers = answers;
     this.stats = this.calcStats();
     this.numberRemainingLives = this.calcNumberRemainingLives();
@@ -34,6 +35,10 @@ class Result {
   calcNumberRemainingLives() {
     const result = definition.maxLives - this.stats.wrong;
     return result < 0 ? 0 : result;
+  }
+
+  get user() {
+    return this._user;
   }
 
   get scoreRight() {

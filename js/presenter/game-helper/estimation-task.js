@@ -1,5 +1,5 @@
 import {TypeAnswer} from './type-answer';
-import definition from '../../definition';
+import definition from '../../model/definition';
 
 class EstimationTask {
   constructor(typeTask) {

@@ -1,4 +1,4 @@
-import {createCustomEvent, evtExpiredTimer, evtTickTimer} from '../../util';
+import {createCustomEvent, evtExpiredTimer, evtTickTimer} from '../../util/util';
 import getCounter from './counter';
 
 class Timer {

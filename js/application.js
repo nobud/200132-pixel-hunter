@@ -1,10 +1,9 @@
-import {evtNext, evtBack, changeScreen} from './util';
+import {evtNext, evtBack, changeScreen} from './util/util';
 import {GameManager} from './presenter/game-screen/game-manager';
 import screenIntro from './presenter/intro-screen';
 import screenGreeting from './presenter/greeting-screen';
 import screenRules from './presenter/rules-screen';
 import screenStats from './presenter/stats-screen';
-import {tasks as dataTasks} from './data/data';
 
 const TypeScreen = {
   INTRO: screenIntro,
@@ -39,18 +38,9 @@ class Application {
     this.initApplicationLevels();
   }
 
-  static loadData() {
-    // заглушка для получения данных, загруженных с сервера
-    return dataTasks;
-  }
-
-  static initGameScreen(tasks) {
-    GameManager.createGameManager(tasks).start();
-  }
-
   bindHandlers() {
-    window.addEventListener(evtNext, () => {
-      this.showNextScreen();
+    window.addEventListener(evtNext, (evt) => {
+      this.showNextScreen(evt);
     });
     window.addEventListener(evtBack, () => {
       this.showBackScreen();
@@ -71,10 +61,6 @@ class Application {
     return LevelApplicationToTypeScreen[level];
   }
 
-  getLevel(index) {
-    return this.levels[index];
-  }
-
   isFinishLevel(index) {
     return index === this.levels.length - 1;
   }
@@ -84,17 +70,13 @@ class Application {
     return this.levels[indexLevel];
   }
 
+  static showGame(userName, tasks) {
+    GameManager.createGameManager(userName, tasks).start();
+  }
+
   static showWelcome() {
     changeScreen(Application.getTypeScreen(LevelGame.INTRO));
     return new Application();
-  }
-
-  static showGame() {
-    Application.initGameScreen(Application.loadData());
-  }
-
-  static showStats() {
-    changeScreen(Application.getTypeScreen(LevelGame.STATS));
   }
 
   showBackScreen() {
@@ -102,12 +84,21 @@ class Application {
     changeScreen(Application.getTypeScreen(LevelGame.GREETING));
   }
 
-  showNextScreen() {
+  showNextScreen(evt) {
     const level = this.setNextLevel();
-    if (level === LevelGame.GAME) {
-      Application.showGame();
-    } else {
-      changeScreen(Application.getTypeScreen(level));
+
+    switch (level) {
+      case LevelGame.GREETING: {
+        this.serverData = evt.detail.data;
+        changeScreen(Application.getTypeScreen(level));
+        break;
+      }
+      case LevelGame.GAME: {
+        const userName = evt.detail.data;
+        Application.showGame(userName, this.serverData);
+        break;
+      }
+      default: changeScreen(Application.getTypeScreen(level));
     }
   }
 }

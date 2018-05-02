@@ -1,10 +1,9 @@
-import definition from '../../definition';
+import definition from '../../model/definition';
 import {GameModel} from '../../model/game-model';
 import {Result} from '../game-helper/result';
-import {changeScreen, createCustomEvent, evtAnsweredTask, evtExpiredTimer, evtBack, evtTickTimer, evtRefreshTime} from '../../util';
-import results from '../../data/results';
+import {changeScreen, createCustomEvent, evtAnsweredTask, evtExpiredTimer, evtBack, evtNext, evtTickTimer, evtRefreshTime} from '../../util/util';
+import results from '../../model/results';
 import {Timer} from '../game-helper/timer';
-import {Application} from '../../application';
 import screenGameOneImg from './game-screen-one-img';
 import screenGameTwoImg from './game-screen-two-img';
 import screenGameThreeImg from './game-screen-three-img';
@@ -23,7 +22,7 @@ const TypeStatusGame = {
 
 class GameManager {
   constructor(gameData) {
-    this.data = gameData;
+    this.model = gameData;
     this.initParam();
     window.addEventListener(evtAnsweredTask, (evt) => {
       this.onAnswerTask(evt);
@@ -61,14 +60,12 @@ class GameManager {
   }
 
   onTick() {
-    this.data.refreshTime(this.timer.value);
-    createCustomEvent(evtRefreshTime, this.data.getTime());
+    this.model.refreshTime(this.timer.value);
+    createCustomEvent(evtRefreshTime, this.model.getTime());
   }
 
   onGoToBack() {
     if (this.isStarted()) {
-      // добавить диалоговое окно подтверждения выхода из игры
-      // ...
       this.reset();
     }
   }
@@ -76,7 +73,7 @@ class GameManager {
   openNextTask() {
     this.setNextTask();
     this.timer = new Timer(definition.maxTimeForAnswer);
-    this.data.refreshTime(this.timer.value);
+    this.model.refreshTime(this.timer.value);
     this.timer.start();
     return this.getCurrentTask();
   }
@@ -89,7 +86,7 @@ class GameManager {
 
   completeTask(task) {
     this.saveCurrentAnswer(task.typeAnswer);
-    if (this.data.isAnswerWrong(this.currentTaskIndex)) {
+    if (this.model.isAnswerWrong(this.currentTaskIndex)) {
       this.loseLife();
     }
     if (this.isLastTask()) {
@@ -97,8 +94,7 @@ class GameManager {
     }
     if (this.isFinished()) {
       this.completeGame();
-      Application.showStats();
-      // createCustomEvent(evtNext);
+      createCustomEvent(evtNext);
     } else {
       this.showTask();
     }
@@ -115,15 +111,15 @@ class GameManager {
   }
 
   loseLife() {
-    if (this.data.getCountLives() > 0) {
-      this.data.loseLife();
+    if (this.model.getCountLives() > 0) {
+      this.model.loseLife();
     } else {
       this.goToFinishGameStatus();
     }
   }
 
   reset() {
-    this.data.reset();
+    this.model.reset();
     this.initParam();
     this.status = TypeStatusGame.WAIT;
   }
@@ -146,11 +142,11 @@ class GameManager {
   }
 
   saveCurrentAnswer(answer) {
-    this.data.saveAnswer(this.currentTaskIndex, answer);
+    this.model.saveAnswer(this.currentTaskIndex, answer);
   }
 
   calcResult() {
-    return new Result(this.data.getAnswers());
+    return new Result(this.model.user, this.model.getAnswers());
   }
 
   get result() {
@@ -158,11 +154,17 @@ class GameManager {
   }
 
   saveResult() {
+    // сохранить результаты текущей игры
+    this.model.saveResult(this.result);
+
+    // отправить результаты игры на сервер
+    // ...
+
     results.unshift(this.result);
   }
 
   isLastTask() {
-    return this.currentTaskIndex === this.data.getTasksLength() - 1;
+    return this.currentTaskIndex === this.model.getTasksLength() - 1;
   }
 
   setNextTask() {
@@ -170,23 +172,23 @@ class GameManager {
   }
 
   getCurrentTask() {
-    return this.data.getTask(this.currentTaskIndex);
+    return this.model.getTask(this.currentTaskIndex);
   }
 
   getTask(index) {
-    return this.data.getTask(index);
+    return this.model.getTask(index);
   }
 
   getState() {
-    return this.data.getState();
+    return this.model.getState();
   }
 
   getTypeGameScreen(typeTask) {
     return TypeTaskToTypeScreen[typeTask];
   }
 
-  static createGameManager(data) {
-    return new GameManager(new GameModel(data));
+  static createGameManager(userName, data) {
+    return new GameManager(new GameModel(userName, data));
   }
 }
 

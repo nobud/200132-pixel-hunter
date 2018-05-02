@@ -1,8 +1,8 @@
-import {AbstractView} from './abstract-view';
+import {ViewAbstract} from './view-abstract';
 import {getLogo} from './logo/logo-template';
 import getFooter from './footer/footer-template';
 
-class GreetingView extends AbstractView {
+class GreetingView extends ViewAbstract {
   get htmlTemplate() {
     return this.getArticle();
   }
