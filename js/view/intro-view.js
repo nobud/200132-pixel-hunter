@@ -1,7 +1,7 @@
-import {AbstractView} from './abstract-view';
+import {ViewAbstract} from './view-abstract';
 import getFooter from './footer/footer-template';
 
-class IntroView extends AbstractView {
+class IntroView extends ViewAbstract {
 
   get htmlTemplate() {
     return this.getArticle();

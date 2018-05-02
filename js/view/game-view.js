@@ -1,11 +1,11 @@
-import {AbstractView} from './abstract-view';
-import definition from '../definition';
+import {ViewAbstract} from './view-abstract';
+import definition from '../model/definition';
 import {getGameHeader} from './header/header-template';
 import getFooter from './footer/footer-template';
 import getStatsTemplate from './stats-result/stats-result-template';
-import {getNewSizeImage, evtRefreshTime} from '../util';
+import {evtRefreshTime} from '../util/util';
 
-class GameView extends AbstractView {
+class GameView extends ViewAbstract {
   constructor(task, state) {
     super();
     this.task = task;
@@ -29,15 +29,6 @@ class GameView extends AbstractView {
       this._back = this.elementDOM.querySelector(`.header__back`);
     }
     return this._back;
-  }
-
-  get srcImages() {
-    if (!this._srcImages) {
-      this._srcImages = this.task.options.map((option) => {
-        return option.srcImage;
-      });
-    }
-    return this._srcImages;
   }
 
   get images() {
@@ -81,31 +72,21 @@ class GameView extends AbstractView {
     return element.closest(`.game__option`);
   }
 
-  resizeImage(imageDOM, imageLoaded) {
-    let newSize = getNewSizeImage({width: imageLoaded.width, height: imageLoaded.height}, {width: this.widthOption, height: this.heightOption});
-    imageDOM.style.width = newSize.width;
-    imageDOM.style.height = newSize.height;
-    return imageDOM;
-  }
-
-  onLoadImage(evt) {
-    const imageLoaded = evt.target;
-    const src = imageLoaded.src;
-    const imageDOM = this.images[this.srcImages.indexOf(src)];
-    this.resizeImage(imageDOM, imageLoaded);
-    imageDOM.src = src;
+  resizeImage(imgDOM, newSize) {
+    imgDOM.width = newSize.width;
+    imgDOM.height = newSize.height;
+    return imgDOM;
   }
 
   initImages() {
-    this.srcImages.forEach((srcImage) => {
-      let image = new Image();
-      image.addEventListener(`load`, this.onLoadImage.bind(this));
-      image.src = srcImage;
+    this.task.options.forEach((option, it) => {
+      const imgDOM = this.images[it];
+      this.resizeImage(imgDOM, {width: option.widthImg, height: option.heightImg});
+      imgDOM.src = option.srcImage;
     });
   }
 
   onAnswerClick() {
-
   }
 
   onRefreshTime(evt) {

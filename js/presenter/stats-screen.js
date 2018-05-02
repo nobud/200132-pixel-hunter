@@ -1,6 +1,6 @@
 import {ScreenAbstract} from './screen-abstract';
 import {StatsView} from '../view/stats-view';
-import dataResults from '../data/results';
+import dataResults from '../model/results';
 
 class StatsScreen extends ScreenAbstract {
 

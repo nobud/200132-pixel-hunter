@@ -1,5 +1,5 @@
 import {GameScreenAbstract} from './game-screen-abstract';
-import {createCustomEvent, evtAnsweredTask} from '../../util';
+import {createCustomEvent, evtAnsweredTask} from '../../util/util';
 
 class GameScreenOneImg extends GameScreenAbstract {
   constructor() {

@@ -1,6 +1,6 @@
 import {EstimationTask} from '../presenter/game-helper/estimation-task';
 import {TypeAnswer} from '../presenter/game-helper/type-answer';
-import definition from '../definition';
+import definition from './definition';
 import {Option} from './option';
 
 class Task {

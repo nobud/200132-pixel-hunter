@@ -1,6 +1,12 @@
-import {showElement, createCustomEvent, evtNext, evtBack} from '../util';
+import {showElement, createCustomEvent, evtNext, evtBack} from '../util/util';
 
 class ScreenAbstract {
+
+  constructor() {
+    if (new.target === ScreenAbstract) {
+      throw new Error(`Can't instantiate abstract class`);
+    }
+  }
 
   initNextHandler() {
     this.view.onNextClick = this.onNextElementClick;

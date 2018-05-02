@@ -1,6 +1,11 @@
-import {getElementFromTemplate} from '../util';
+import {getElementFromTemplate} from '../util/util';
 
-class AbstractView {
+class ViewAbstract {
+  constructor() {
+    if (new.target === ViewAbstract) {
+      throw new Error(`Can't instantiate abstract class`);
+    }
+  }
 
   get htmlTemplate() {
     throw new Error(`You have to define template for view`);
@@ -25,4 +30,4 @@ class AbstractView {
   }
 }
 
-export {AbstractView};
+export {ViewAbstract};

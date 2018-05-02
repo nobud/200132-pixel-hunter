@@ -1,5 +1,5 @@
 import {getSmallLogo} from '../logo/logo-template';
-import definition from '../../definition';
+import definition from '../../model/definition';
 
 const getBackTemplate = () => `
   <div class="header__back">

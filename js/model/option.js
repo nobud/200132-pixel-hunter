@@ -14,6 +14,14 @@ class Option {
     this.srcImage = option.srcImage;
     this.referenceType = option.refType;
     this.answeredType = TypeImage.UNKNOWN;
+    // ширина контейнера
+    this.width = option.width;
+    // высота контейнера
+    this.height = option.height;
+    // ширина img
+    this.widthImg = option.widthImg;
+    // высота img
+    this.heightImg = option.heightImg;
   }
 
   isAnswered() {

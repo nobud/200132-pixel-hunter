@@ -1,10 +1,11 @@
+import ErrorView from '../view/error/error-view';
+
 const evtNext = `toNext`;
 const evtBack = `toBack`;
 const evtAnsweredTask = `answeredTask`;
 const evtExpiredTimer = `expiredTimer`;
 const evtTickTimer = `tickTimer`;
 const evtRefreshTime = `refreshTime`;
-const evtLoadView = `loadView`;
 
 const getElementFromTemplate = (templateContent) => {
   const tag = `div`;
@@ -17,6 +18,11 @@ const showElement = (element) => {
   const parentScreen = document.querySelector(`main.central`);
   parentScreen.innerHTML = ``;
   parentScreen.appendChild(element);
+};
+
+const showError = (error) => {
+  const errorView = new ErrorView(error);
+  showElement(errorView.elementDOM);
 };
 
 const changeScreen = (screen, data = null, state = null) => {
@@ -34,17 +40,5 @@ const createCustomEvent = (eventText, additional) => {
   window.dispatchEvent(customEvent);
 };
 
-const getNewSizeImage = (sizeElement, sizeContainer) => {
-  if (sizeElement.height > sizeElement.width && sizeElement.height > sizeContainer.height
-    || sizeElement.height <= sizeElement.width && sizeElement.width <= sizeContainer.width) {
-    sizeElement.height = sizeContainer.height;
-    sizeElement.width = `auto`;
-  } else {
-    sizeElement.width = sizeContainer.width;
-    sizeElement.height = `auto`;
-  }
-  return sizeElement;
-};
-
-export {getElementFromTemplate, showElement, changeScreen, createCustomEvent, evtNext, evtBack, evtAnsweredTask,
-  evtLoadView, evtExpiredTimer, evtTickTimer, evtRefreshTime, getNewSizeImage};
+export {getElementFromTemplate, showElement, showError, changeScreen, createCustomEvent, evtNext, evtBack, evtAnsweredTask,
+  evtExpiredTimer, evtTickTimer, evtRefreshTime};
