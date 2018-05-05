@@ -1,20 +1,16 @@
-import {ViewAbstract} from './view-abstract';
+import ViewAbstract from './view-abstract';
 import definition from '../model/definition';
 import {getGameHeader} from './header/header-template';
 import getFooter from './footer/footer-template';
+import {confirmTemplate} from './confirm/confirm';
 import getStatsTemplate from './stats-result/stats-result-template';
 import {evtRefreshTime} from '../util/util';
 
-class GameView extends ViewAbstract {
+export default class GameView extends ViewAbstract {
   constructor(task, state) {
     super();
     this.task = task;
     this.state = state;
-  }
-
-  get htmlTemplate() {
-    this.initParamsTemplate();
-    return this.getArticle(this.task, this.state);
   }
 
   get gameTimer() {
@@ -29,6 +25,27 @@ class GameView extends ViewAbstract {
       this._back = this.elementDOM.querySelector(`.header__back`);
     }
     return this._back;
+  }
+
+  get modal() {
+    if (!this._modal) {
+      this._modal = this.elementDOM.querySelector(`.confirm`);
+    }
+    return this._modal;
+  }
+
+  get confirmBack() {
+    if (!this._confirmBack) {
+      this._confirmBack = this.elementDOM.querySelector(`.confirm__ok`);
+    }
+    return this._confirmBack;
+  }
+
+  get cancelBack() {
+    if (!this._cancelBack) {
+      this._cancelBack = this.elementDOM.querySelector(`.confirm__cancel`);
+    }
+    return this._cancelBack;
   }
 
   get images() {
@@ -68,6 +85,11 @@ class GameView extends ViewAbstract {
     return this._optionsAnswers;
   }
 
+  get htmlTemplate() {
+    this.initParamsTemplate();
+    return this.getArticle(this.task, this.state);
+  }
+
   getClickedGameOption(element) {
     return element.closest(`.game__option`);
   }
@@ -83,29 +105,6 @@ class GameView extends ViewAbstract {
       const imgDOM = this.images[it];
       this.resizeImage(imgDOM, {width: option.widthImg, height: option.heightImg});
       imgDOM.src = option.srcImage;
-    });
-  }
-
-  onAnswerClick() {
-  }
-
-  onRefreshTime(evt) {
-    this.gameTimer.textContent = evt.detail.data;
-  }
-
-  bindHandlers() {
-    this.initImages();
-
-    this.back.addEventListener(`click`, () => {
-      this.onBackClick();
-    });
-
-    this.gameContent.addEventListener(`click`, (evt) => {
-      this.onAnswerClick(evt);
-    });
-
-    window.addEventListener(evtRefreshTime, (evt) => {
-      this.onRefreshTime(evt);
     });
   }
 
@@ -174,12 +173,53 @@ class GameView extends ViewAbstract {
         ${this.getTemplate(task)}
         ${getStatsTemplate(state.answers)}
       </div>
-      ${getFooter()}`;
+      ${getFooter()}
+      ${confirmTemplate}`;
   }
 
   getIndexGameOption(option) {
     return [...this.gameOptions].indexOf(option);
   }
-}
 
-export {GameView};
+  bindHandlers() {
+    this.initImages();
+    this.back.addEventListener(`click`, () => {
+      this.onBackClick();
+    });
+    this.gameContent.addEventListener(`click`, (evt) => {
+      this.onAnswerClick(evt);
+    });
+    this.confirmBack.addEventListener(`click`, () => {
+      this.onConfirmBackClick();
+    });
+    this.cancelBack.addEventListener(`click`, () => {
+      this.onCancelBackClick();
+    });
+    // window.addEventListener(evtRefreshTime, (evt) => {
+    //   this.onRefreshTime(evt);
+    // });
+    window.addEventListener(evtRefreshTime, () => {
+      this.onRefreshTime();
+    });
+  }
+
+  onConfirmBackClick() {
+  }
+
+  onCancelBackClick() {
+  }
+
+  onAnswerClick() {
+  }
+
+  // onRefreshTime(evt) {
+  //   this.gameTimer.textContent = evt.detail.data;
+  // }
+
+  onRefreshTime() {
+  }
+
+  onStartBlinkTime() {
+  }
+
+}

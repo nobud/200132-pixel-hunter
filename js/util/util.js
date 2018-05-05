@@ -4,6 +4,9 @@ const evtAnsweredTask = `answeredTask`;
 const evtExpiredTimer = `expiredTimer`;
 const evtTickTimer = `tickTimer`;
 const evtRefreshTime = `refreshTime`;
+const evtTimerStop = `stopTimer`;
+const evtTimerContinue = `continueTimer`;
+const evtStartBlinkTime = `startBlinkTime`;
 
 const getElementFromTemplate = (templateContent) => {
   const tag = `div`;
@@ -34,4 +37,4 @@ const createCustomEvent = (eventText, additional) => {
 };
 
 export {getElementFromTemplate, showElement, changeScreen, createCustomEvent, evtNext, evtBack, evtAnsweredTask,
-  evtExpiredTimer, evtTickTimer, evtRefreshTime};
+  evtExpiredTimer, evtTickTimer, evtRefreshTime, evtTimerContinue, evtTimerStop, evtStartBlinkTime};
