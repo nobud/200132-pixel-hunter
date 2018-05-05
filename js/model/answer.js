@@ -1,33 +1,27 @@
-import {TypeAnswer, strTypeAnswer} from '../presenter/game-helper/type-answer';
+import definition from './definition';
 
-class Answer {
-  constructor(type = TypeAnswer.UNKNOWN) {
+export default class Answer {
+  constructor(type = definition.TypeAnswer.UNKNOWN) {
     this.type = type;
   }
 
   isWrong() {
-    return this.type === TypeAnswer.WRONG;
+    return this.type === definition.TypeAnswer.WRONG;
   }
 
   isFast() {
-    return this.type === TypeAnswer.FAST;
+    return this.type === definition.TypeAnswer.FAST;
   }
 
   isSlow() {
-    return this.type === TypeAnswer.SLOW;
+    return this.type === definition.TypeAnswer.SLOW;
   }
 
   isUnknown() {
-    return this.type === TypeAnswer.UNKNOWN;
+    return this.type === definition.TypeAnswer.UNKNOWN;
   }
 
   isNormal() {
-    return this.type === TypeAnswer.NORMAL;
-  }
-
-  getTypeStr() {
-    return strTypeAnswer[this.type];
+    return this.type === definition.TypeAnswer.NORMAL;
   }
 }
-
-export {Answer};

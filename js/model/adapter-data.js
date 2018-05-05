@@ -1,47 +1,37 @@
-import definition from './definition';
-import {TypeImage} from './option';
-import loadImage from '../util/loader-image';
-import {showError} from '../util/util';
-import getNewSizeImage from '../util/get-new-size-image';
+import Result from '../presenter/game-helper/result';
+import Answer from '../model/answer';
 
-const ServerToTypeTask = {
-  'tinder-like': definition.TypeTask.ONE_IMG,
-  'two-of-two': definition.TypeTask.TWO_IMG,
-  'one-of-three': definition.TypeTask.THREE_IMG
-};
-
-const ServerToTypeImage = {
-  'photo': TypeImage.PHOTO,
-  'painting': TypeImage.PAINTING,
-};
+const COUNT_LAST_RESULTS = 10;
 
 const adaptOptions = (answers) => answers.map((answer) => {
-  let option = {};
-  loadImage(answer.image.url).
-      then((image) => getNewSizeImage({width: answer.image.width, height: answer.image.height}, {width: image.width, height: image.height})).
-      then((size) => {
-        option.srcImage = answer.image.url;
-        option.refType = ServerToTypeImage[answer.type];
-        // ширина контейнера
-        option.width = answer.image.width;
-        // высота контейнера
-        option.height = answer.image.height;
-        // ширина img
-        option.widthImg = size.width;
-        // высота img
-        option.heightImg = size.height;
-      }).
-      catch(showError);
-  return option;
+  return {
+    'srcImage': answer.image.url,
+    'refType': answer.type,
+    // ширина контейнера
+    'width': answer.image.width,
+    // высота контейнера
+    'height': answer.image.height,
+  };
 });
 
 const adaptData = (tasks) => tasks.map((task) => {
   return {
-    'type': ServerToTypeTask[task.type],
+    'type': task.type,
     'text': task.question,
     'options': adaptOptions(task.answers),
   };
 });
 
-export {adaptData};
+const adaptResultStats = (user, stats) => {
+  const results = stats.map((stat) => {
+    const answers = stat.map((answer) => new Answer(answer.type));
+    const result = new Result(user, answers);
+    return result;
+  });
+  const countResults = Math.min(results.length, COUNT_LAST_RESULTS);
+  return results.reverse().slice(0, countResults);
+};
+
+export {adaptData, adaptResultStats};
+
 

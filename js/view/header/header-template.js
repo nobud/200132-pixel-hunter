@@ -23,7 +23,7 @@ const getGameHeader = (state) => {
   const headerGameTemplate = `
   <h1 class="game__timer">${state.time}</h1>
   <div class="game__lives">
-    ${new Array(definition.maxLives - state.numberLives)
+    ${new Array(definition.MAX_LIVES - state.numberLives)
       .fill(emptyHeartTemplate)
       .join(` `)}
     ${new Array(state.numberLives)

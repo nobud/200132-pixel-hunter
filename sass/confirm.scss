@@ -1,0 +1,55 @@
+.confirm--hide {
+  display: none;
+}
+
+.confirm--show {
+  display: block;
+}
+
+.confirm__wrapper {
+  position: fixed;
+  margin: auto;
+  width: 40%;
+  top: 50%;
+  left: 50%;
+  z-index: 200;
+  transform: translate(-50%, -50%);
+  background-color: #C0C0C0;
+  padding: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.confirm__header {
+  margin: 0 auto;
+}
+
+.confirm__text {
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.confirm-btn {
+  padding: 15px;
+  width: 30%;
+  background-color: #66CDAA;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #7FFFD4;
+  }
+}
+
+.confirm__overlay {
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+}

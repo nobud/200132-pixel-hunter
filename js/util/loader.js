@@ -1,6 +1,6 @@
-import {adaptData} from '../model/adapter-data';
+import {adaptData, adaptResultStats} from '../model/adapter-data';
 
-const SERVER_URL = `https://es.dump.academy/pixel-hunter/`;
+const SERVER_URL = `https://es.dump.academy/pixel-hunter`;
 const PATH_LOAD_DATA = `questions`;
 const PATH_RESULTS = `stats`;
 const DEFAULT_NAME = `guest`;
@@ -21,11 +21,11 @@ const toJSON = (res) => {
 
 export default class Loader {
   static loadData() {
-    return fetch(`${SERVER_URL}/${PATH_LOAD_DATA}`).then(checkStatus).then(toJSON).then(adaptData);
+    return window.fetch(`${SERVER_URL}/${PATH_LOAD_DATA}`).then(checkStatus).then(toJSON).then(adaptData);
   }
 
   static loadResults(name = DEFAULT_NAME) {
-    return fetch(`${SERVER_URL}/${PATH_RESULTS}/${APP_ID}-${name}`).then(checkStatus).then(toJSON);
+    return window.fetch(`${SERVER_URL}/${PATH_RESULTS}/${APP_ID}-${name}`).then(checkStatus).then(toJSON).then((results) => adaptResultStats(name, results));
   }
 
   static saveResults(data, name = DEFAULT_NAME) {
@@ -36,6 +36,6 @@ export default class Loader {
       },
       method: `POST`
     };
-    return fetch(`${SERVER_URL}/${PATH_RESULTS}/${APP_ID}-${name}`, requestSettings).then(checkStatus);
+    return window.fetch(`${SERVER_URL}/${PATH_RESULTS}/${APP_ID}-${name}`, requestSettings).then(checkStatus);
   }
 }

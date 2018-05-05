@@ -1,16 +1,13 @@
 import {getHeader} from './header/header-template';
 import getFooter from './footer/footer-template';
 import getStatsTemplate from './stats-result/stats-result-template';
-import {ViewAbstract} from './view-abstract';
+import ViewAbstract from './view-abstract';
+import definition from '../model/definition';
 
-class StatsView extends ViewAbstract {
+export default class StatsView extends ViewAbstract {
   constructor(results) {
     super();
     this.results = results;
-  }
-
-  get htmlTemplate() {
-    return this.getArticle(this.results);
   }
 
   get back() {
@@ -20,13 +17,8 @@ class StatsView extends ViewAbstract {
     return this._back;
   }
 
-  onBackClick() {
-  }
-
-  bindHandlers() {
-    this.back.addEventListener(`click`, () => {
-      this.onBackClick();
-    });
+  get htmlTemplate() {
+    return this.getArticle(this.results);
   }
 
   getResultMainSummary(result) {
@@ -34,7 +26,7 @@ class StatsView extends ViewAbstract {
       <td class="result__total"></td>
       <td class="result__total result__total--final">${result.scoreDisplayed}</td>`
       : `
-      <td class="result__points">×&nbsp;${result.scoreRight}</td>
+      <td class="result__points">×&nbsp;${definition.Points.RIGHT}</td>
       <td class="result__total">${result.scoreForRightTotal}</td>`;
   }
 
@@ -57,7 +49,7 @@ class StatsView extends ViewAbstract {
         <td></td>
         <td class="result__extra">Бонус за скорость:</td>
         <td class="result__extra">${result.numberFast}&nbsp;<span class="stats__result stats__result--fast"></span></td>
-        <td class="result__points">×&nbsp;${result.scoreFast}</td>
+        <td class="result__points">×&nbsp;${definition.Points.FAST}</td>
         <td class="result__total">${result.scoreForRightFastTotal}</td>
       </tr>`
       : ``;
@@ -69,7 +61,7 @@ class StatsView extends ViewAbstract {
         <td></td>
         <td class="result__extra">Бонус за жизни:</td>
         <td class="result__extra">${result.numberRemainingLives}&nbsp;<span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">×&nbsp;${result.scoreLife}</td>
+        <td class="result__points">×&nbsp;${definition.Points.LIFE}</td>
         <td class="result__total">${result.scoreForLivesTotal}</td>
       </tr>`
       : ``;
@@ -81,7 +73,7 @@ class StatsView extends ViewAbstract {
         <td></td>
         <td class="result__extra">Штраф за медлительность:</td>
         <td class="result__extra">${result.numberSlow}&nbsp;<span class="stats__result stats__result--slow"></span></td>
-        <td class="result__points">×&nbsp;${result.scoreSlow}</td>
+        <td class="result__points">×&nbsp;${definition.Points.SLOW}</td>
         <td class="result__total">${result.scoreForRightSlowTotal}</td>
       </tr>`
       : ``;
@@ -126,6 +118,13 @@ class StatsView extends ViewAbstract {
       </div>
       ${getFooter()}`;
   }
-}
 
-export {StatsView};
+  bindHandlers() {
+    this.back.addEventListener(`click`, () => {
+      this.onBackClick();
+    });
+  }
+
+  onBackClick() {
+  }
+}

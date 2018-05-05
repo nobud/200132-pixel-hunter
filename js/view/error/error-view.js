@@ -1,4 +1,5 @@
-import {ViewAbstract} from '../view-abstract';
+import ViewAbstract from '../view-abstract';
+import {showElement} from '../../util/util';
 
 class ErrorView extends ViewAbstract {
 
@@ -15,4 +16,9 @@ class ErrorView extends ViewAbstract {
   }
 }
 
-export default ErrorView;
+const showError = (error) => {
+  const errorView = new ErrorView(error);
+  showElement(errorView.elementDOM);
+};
+
+export default showError;

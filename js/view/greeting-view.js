@@ -1,11 +1,8 @@
-import {ViewAbstract} from './view-abstract';
+import ViewAbstract from './view-abstract';
 import {getLogo} from './logo/logo-template';
 import getFooter from './footer/footer-template';
 
-class GreetingView extends ViewAbstract {
-  get htmlTemplate() {
-    return this.getArticle();
-  }
+export default class GreetingView extends ViewAbstract {
 
   get next() {
     if (!this._next) {
@@ -14,13 +11,8 @@ class GreetingView extends ViewAbstract {
     return this._next;
   }
 
-  onNextClick() {
-  }
-
-  bindHandlers() {
-    this.next.addEventListener(`click`, () => {
-      this.onNextClick();
-    });
+  get htmlTemplate() {
+    return this.getArticle();
   }
 
   getTemplate() {
@@ -45,5 +37,13 @@ class GreetingView extends ViewAbstract {
       </div>
       ${getFooter()}`;
   }
+
+  bindHandlers() {
+    this.next.addEventListener(`click`, () => {
+      this.onNextClick();
+    });
+  }
+
+  onNextClick() {
+  }
 }
-export {GreetingView};

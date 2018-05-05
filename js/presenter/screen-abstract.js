@@ -1,6 +1,6 @@
 import {showElement, createCustomEvent, evtNext, evtBack} from '../util/util';
 
-class ScreenAbstract {
+export default class ScreenAbstract {
 
   constructor() {
     if (new.target === ScreenAbstract) {
@@ -28,5 +28,3 @@ class ScreenAbstract {
     createCustomEvent(evtBack);
   }
 }
-
-export {ScreenAbstract};

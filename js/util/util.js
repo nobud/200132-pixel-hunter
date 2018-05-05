@@ -1,11 +1,12 @@
-import ErrorView from '../view/error/error-view';
-
 const evtNext = `toNext`;
 const evtBack = `toBack`;
 const evtAnsweredTask = `answeredTask`;
 const evtExpiredTimer = `expiredTimer`;
 const evtTickTimer = `tickTimer`;
 const evtRefreshTime = `refreshTime`;
+const evtTimerStop = `stopTimer`;
+const evtTimerContinue = `continueTimer`;
+const evtStartBlinkTime = `startBlinkTime`;
 
 const getElementFromTemplate = (templateContent) => {
   const tag = `div`;
@@ -18,11 +19,6 @@ const showElement = (element) => {
   const parentScreen = document.querySelector(`main.central`);
   parentScreen.innerHTML = ``;
   parentScreen.appendChild(element);
-};
-
-const showError = (error) => {
-  const errorView = new ErrorView(error);
-  showElement(errorView.elementDOM);
 };
 
 const changeScreen = (screen, data = null, state = null) => {
@@ -40,5 +36,5 @@ const createCustomEvent = (eventText, additional) => {
   window.dispatchEvent(customEvent);
 };
 
-export {getElementFromTemplate, showElement, showError, changeScreen, createCustomEvent, evtNext, evtBack, evtAnsweredTask,
-  evtExpiredTimer, evtTickTimer, evtRefreshTime};
+export {getElementFromTemplate, showElement, changeScreen, createCustomEvent, evtNext, evtBack, evtAnsweredTask,
+  evtExpiredTimer, evtTickTimer, evtRefreshTime, evtTimerContinue, evtTimerStop, evtStartBlinkTime};

@@ -1,60 +1,36 @@
 import definition from '../../model/definition';
 
-const Points = {
-  RIGHT: 100,
-  FAST: 50,
-  SLOW: 50,
-  LIFE: 50
-};
-
 const textWin = `Победа!`;
 const textLoose = `Поражение`;
 const textScoreFail = `FAIL`;
 
-class Result {
+export default class Result {
   constructor(userName, answers) {
     this._user = userName;
-    this.answers = answers;
-    this.stats = this.calcStats();
-    this.numberRemainingLives = this.calcNumberRemainingLives();
-    this.score = this.calcScore();
+    this._answers = answers;
+    this._stats = this.__calcStats();
+    this._numberRemainingLives = this.__calcNumberRemainingLives();
+    this._score = this.__calcScore();
   }
 
-  calcStats() {
-    const stats = this.answers.reduce((statsTmp, answer) => {
-      statsTmp.normal += answer.isNormal() ? 1 : 0;
-      statsTmp.fast += answer.isFast() ? 1 : 0;
-      statsTmp.slow += answer.isSlow() ? 1 : 0;
-      statsTmp.wrong += answer.isWrong() ? 1 : 0;
-      return statsTmp;
-    }, {normal: 0, fast: 0, slow: 0, wrong: 0});
-    stats.right = stats.normal + stats.fast + stats.slow;
-    return stats;
+  get answers() {
+    return this._answers;
   }
 
-  calcNumberRemainingLives() {
-    const result = definition.maxLives - this.stats.wrong;
-    return result < 0 ? 0 : result;
+  get stats() {
+    return this._stats;
   }
 
   get user() {
     return this._user;
   }
 
-  get scoreRight() {
-    return Points.RIGHT;
+  get numberRemainingLives() {
+    return this._numberRemainingLives;
   }
 
-  get scoreFast() {
-    return Points.FAST;
-  }
-
-  get scoreSlow() {
-    return Points.SLOW;
-  }
-
-  get scoreLife() {
-    return Points.LIFE;
+  get score() {
+    return this._score;
   }
 
   get numberRight() {
@@ -70,44 +46,59 @@ class Result {
   }
 
   get scoreForLivesTotal() {
-    return this.numberRemainingLives * this.scoreLife;
+    return this.numberRemainingLives > 0 ? this.numberRemainingLives * definition.Points.LIFE : 0;
   }
 
   get scoreForRightTotal() {
-    return this.numberRight * this.scoreRight;
+    return this.numberRight * definition.Points.RIGHT;
   }
 
   get scoreForRightFastTotal() {
-    return this.numberFast * this.scoreFast;
+    return this.numberFast * definition.Points.FAST;
   }
 
   get scoreForRightSlowTotal() {
-    return -(this.numberSlow * this.scoreSlow);
+    return -(this.numberSlow * definition.Points.SLOW);
   }
 
-  isFail() {
-    return this.answers.length < definition.numberOfRequiredAnswers || this.answers.some((answer) => answer.isUnknown());
+  get scoreDisplayed() {
+    return this.isScoreFail() ? textScoreFail : this._score;
   }
 
-  calcScore() {
-    let numberPoints = -1;
-    if (!this.isFail()) {
-      numberPoints = this.scoreForRightTotal + this.scoreForRightFastTotal + this.scoreForRightSlowTotal + this.scoreForLivesTotal;
-    }
-    return numberPoints;
+  get gameStatusText() {
+    return this.isScoreFail() ? textLoose : textWin;
   }
 
   isScoreFail() {
     return this.score === -1;
   }
 
-  get scoreDisplayed() {
-    return this.isScoreFail() ? textScoreFail : this.score;
+  __calcScore() {
+    let numberPoints = -1;
+    if (!this.__isFail()) {
+      numberPoints = this.scoreForRightTotal + this.scoreForRightFastTotal + this.scoreForRightSlowTotal + this.scoreForLivesTotal;
+    }
+    return numberPoints;
   }
 
-  get gameStatusText() {
-    return this.isScoreFail() ? textLoose : textWin;
+  __calcStats() {
+    const stats = this.answers.reduce((statsTmp, answer) => {
+      statsTmp.normal += answer.isNormal() ? 1 : 0;
+      statsTmp.fast += answer.isFast() ? 1 : 0;
+      statsTmp.slow += answer.isSlow() ? 1 : 0;
+      statsTmp.wrong += answer.isWrong() ? 1 : 0;
+      return statsTmp;
+    }, {normal: 0, fast: 0, slow: 0, wrong: 0});
+    stats.right = stats.normal + stats.fast + stats.slow;
+    return stats;
+  }
+
+  __calcNumberRemainingLives() {
+    return definition.MAX_LIVES - this.stats.wrong;
+  }
+
+  __isFail() {
+    return this.answers.length < definition.NUMBER_OF_REQUIRED_ANSWERS || this.answers.some((answer) => answer.isUnknown()) ||
+      this.numberRemainingLives < 0;
   }
 }
-
-export {Result};
