@@ -1,7 +1,7 @@
 const TypeImage = {
-  PHOTO: 0,
-  PAINTING: 1,
-  UNKNOWN: 2
+  PHOTO: `photo`,
+  PAINTING: `painting`,
+  UNKNOWN: `unknown`
 };
 
 const TypeValueToTypeImage = {
@@ -31,7 +31,6 @@ class Option {
   isCorrect() {
     return this.referenceType === this.answeredType;
   }
-
 }
 
 export {TypeImage, TypeValueToTypeImage, Option};

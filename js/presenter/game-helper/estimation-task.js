@@ -1,4 +1,4 @@
-import {TypeAnswer} from './type-answer';
+import {TypeAnswer} from '../../model/type-answer';
 import definition from '../../model/definition';
 
 class EstimationTask {

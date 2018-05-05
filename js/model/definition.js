@@ -1,8 +1,8 @@
 const definition = {
   TypeTask: {
-    ONE_IMG: 0,
-    TWO_IMG: 1,
-    THREE_IMG: 2
+    ONE_IMG: `tinder-like`,
+    TWO_IMG: `two-of-two`,
+    THREE_IMG: `one-of-three`,
   },
 
   maxLives: 3,

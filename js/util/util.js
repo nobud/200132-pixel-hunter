@@ -1,5 +1,3 @@
-import ErrorView from '../view/error/error-view';
-
 const evtNext = `toNext`;
 const evtBack = `toBack`;
 const evtAnsweredTask = `answeredTask`;
@@ -20,11 +18,6 @@ const showElement = (element) => {
   parentScreen.appendChild(element);
 };
 
-const showError = (error) => {
-  const errorView = new ErrorView(error);
-  showElement(errorView.elementDOM);
-};
-
 const changeScreen = (screen, data = null, state = null) => {
   screen.init(data, state);
 };
@@ -40,5 +33,5 @@ const createCustomEvent = (eventText, additional) => {
   window.dispatchEvent(customEvent);
 };
 
-export {getElementFromTemplate, showElement, showError, changeScreen, createCustomEvent, evtNext, evtBack, evtAnsweredTask,
+export {getElementFromTemplate, showElement, changeScreen, createCustomEvent, evtNext, evtBack, evtAnsweredTask,
   evtExpiredTimer, evtTickTimer, evtRefreshTime};

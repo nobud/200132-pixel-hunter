@@ -1,6 +1,5 @@
 import {ScreenAbstract} from './screen-abstract';
 import {StatsView} from '../view/stats-view';
-import dataResults from '../model/results';
 
 class StatsScreen extends ScreenAbstract {
 
@@ -9,15 +8,9 @@ class StatsScreen extends ScreenAbstract {
     this.initBackHandler();
   }
 
-  init() {
-    const results = this.loadStats();
+  init(results) {
     this.setView(results);
     this.showView();
-  }
-
-  loadStats() {
-    // заглушка для получения статистики с сервера
-    return dataResults;
   }
 }
 

@@ -1,4 +1,4 @@
-import {TypeAnswer, strTypeAnswer} from '../presenter/game-helper/type-answer';
+import {TypeAnswer} from './type-answer';
 
 class Answer {
   constructor(type = TypeAnswer.UNKNOWN) {
@@ -26,7 +26,7 @@ class Answer {
   }
 
   getTypeStr() {
-    return strTypeAnswer[this.type];
+    return this.type;
   }
 }
 

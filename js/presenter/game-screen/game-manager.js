@@ -1,12 +1,14 @@
 import definition from '../../model/definition';
 import {GameModel} from '../../model/game-model';
 import {Result} from '../game-helper/result';
-import {changeScreen, createCustomEvent, evtAnsweredTask, evtExpiredTimer, evtBack, evtNext, evtTickTimer, evtRefreshTime} from '../../util/util';
-import results from '../../model/results';
+import {changeScreen, createCustomEvent, evtAnsweredTask, evtExpiredTimer,
+  evtBack, evtNext, evtTickTimer, evtRefreshTime} from '../../util/util';
 import {Timer} from '../game-helper/timer';
 import screenGameOneImg from './game-screen-one-img';
 import screenGameTwoImg from './game-screen-two-img';
 import screenGameThreeImg from './game-screen-three-img';
+import Loader from '../../util/loader';
+import showError from '../../view/error/error-view';
 
 const TypeTaskToTypeScreen = {
   [definition.TypeTask.ONE_IMG]: screenGameOneImg,
@@ -84,6 +86,13 @@ class GameManager {
     this.continueGame(task, state);
   }
 
+  saveResultsAndShowStats(userName, answers) {
+    Loader.saveResults(answers, userName).
+        then(() => Loader.loadResults(userName)).
+        then((data) => createCustomEvent(evtNext, data)).
+        catch(showError);
+  }
+
   completeTask(task) {
     this.saveCurrentAnswer(task.typeAnswer);
     if (this.model.isAnswerWrong(this.currentTaskIndex)) {
@@ -92,9 +101,11 @@ class GameManager {
     if (this.isLastTask()) {
       this.goToFinishGameStatus();
     }
+
     if (this.isFinished()) {
-      this.completeGame();
-      createCustomEvent(evtNext);
+      const result = this.completeGame();
+      // сохранить результаты на сервер, скачать статистику игр с сервера и перейти на экран статистики
+      this.saveResultsAndShowStats(this.model.user, result.answers);
     } else {
       this.showTask();
     }
@@ -105,9 +116,9 @@ class GameManager {
   }
 
   completeGame() {
-    this._result = this.calcResult();
-    this.saveResult();
+    const result = this.calcResult();
     this.reset();
+    return result;
   }
 
   loseLife() {
@@ -151,16 +162,6 @@ class GameManager {
 
   get result() {
     return this._result;
-  }
-
-  saveResult() {
-    // сохранить результаты текущей игры
-    this.model.saveResult(this.result);
-
-    // отправить результаты игры на сервер
-    // ...
-
-    results.unshift(this.result);
   }
 
   isLastTask() {

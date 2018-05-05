@@ -98,6 +98,11 @@ class Application {
         Application.showGame(userName, this.serverData);
         break;
       }
+      case LevelGame.STATS: {
+        const stats = evt.detail.data;
+        changeScreen(Application.getTypeScreen(level), stats);
+        break;
+      }
       default: changeScreen(Application.getTypeScreen(level));
     }
   }

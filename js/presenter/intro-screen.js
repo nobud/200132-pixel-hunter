@@ -1,7 +1,9 @@
 import {ScreenAbstract} from './screen-abstract';
 import {IntroView} from '../view/intro-view.js';
-import {showError, createCustomEvent, evtNext} from '../util/util';
+import {createCustomEvent, evtNext} from '../util/util';
 import Loader from '../util/loader';
+import loadImages from '../util/loader-image';
+import showError from '../view/error/error-view';
 
 class IntroScreen extends ScreenAbstract {
   setView() {
@@ -20,6 +22,7 @@ class IntroScreen extends ScreenAbstract {
 
   startLoadData() {
     Loader.loadData().
+        then((data) => loadImages(data)).
         then((data) => createCustomEvent(evtNext, data)).
         catch(showError);
   }
