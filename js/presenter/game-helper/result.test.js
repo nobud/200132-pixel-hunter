@@ -1,6 +1,6 @@
 import assert from 'assert';
 import definition from '../../model/definition';
-import {TypeAnswer} from './type-answer';
+import {TypeAnswer} from '../../model/type-answer';
 import {Result} from './result';
 import {Answer} from '../../model/answer';
 
@@ -68,12 +68,21 @@ describe(`calc scores for game`, () => {
     answers[0].type = TypeAnswer.WRONG;
     assert.equal(new Result(testUser, answers).score, expected);
   });
-  it(`should return 700 when 3 answer is incorrect and for other answers speed is normal and 0 lives are left`, () => {
+  it(`should return 700 when 3 answers are incorrect and for other answers speed is normal and 0 lives are left`, () => {
     expected = 700;
     const answers = getTestAnswers(TypeAnswer.NORMAL);
     answers[0].type = TypeAnswer.WRONG;
     answers[2].type = TypeAnswer.WRONG;
     answers[5].type = TypeAnswer.WRONG;
+    assert.equal(new Result(testUser, answers).score, expected);
+  });
+  it(`should return -1 when >3 answers are incorrect`, () => {
+    expected = -1;
+    const answers = getTestAnswers(TypeAnswer.NORMAL);
+    answers[0].type = TypeAnswer.WRONG;
+    answers[2].type = TypeAnswer.WRONG;
+    answers[5].type = TypeAnswer.WRONG;
+    answers[9].type = TypeAnswer.WRONG;
     assert.equal(new Result(testUser, answers).score, expected);
   });
 });

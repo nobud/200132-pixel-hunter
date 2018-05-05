@@ -33,8 +33,7 @@ class Result {
   }
 
   calcNumberRemainingLives() {
-    const result = definition.maxLives - this.stats.wrong;
-    return result < 0 ? 0 : result;
+    return definition.maxLives - this.stats.wrong;
   }
 
   get user() {
@@ -70,7 +69,7 @@ class Result {
   }
 
   get scoreForLivesTotal() {
-    return this.numberRemainingLives * this.scoreLife;
+    return this.numberRemainingLives > 0 ? this.numberRemainingLives * this.scoreLife : 0;
   }
 
   get scoreForRightTotal() {
@@ -86,7 +85,8 @@ class Result {
   }
 
   isFail() {
-    return this.answers.length < definition.numberOfRequiredAnswers || this.answers.some((answer) => answer.isUnknown());
+    return this.answers.length < definition.numberOfRequiredAnswers || this.answers.some((answer) => answer.isUnknown()) ||
+      this.numberRemainingLives < 0;
   }
 
   calcScore() {
