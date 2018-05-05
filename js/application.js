@@ -1,5 +1,5 @@
 import {evtNext, evtBack, changeScreen} from './util/util';
-import {GameManager} from './presenter/game-screen/game-manager';
+import GameManager from './presenter/game-screen/game-manager';
 import screenIntro from './presenter/intro-screen';
 import screenGreeting from './presenter/greeting-screen';
 import screenRules from './presenter/rules-screen';
@@ -27,7 +27,7 @@ const LevelApplicationToTypeScreen = {
   [LevelGame.STATS]: TypeScreen.STATS
 };
 
-class Application {
+export default class Application {
   constructor() {
     this.init();
     this.bindHandlers();
@@ -36,15 +36,6 @@ class Application {
   init() {
     this.currentIndexLevel = 0;
     this.initApplicationLevels();
-  }
-
-  bindHandlers() {
-    window.addEventListener(evtNext, (evt) => {
-      this.showNextScreen(evt);
-    });
-    window.addEventListener(evtBack, () => {
-      this.showBackScreen();
-    });
   }
 
   initApplicationLevels() {
@@ -57,8 +48,13 @@ class Application {
     ];
   }
 
-  static getTypeScreen(level) {
-    return LevelApplicationToTypeScreen[level];
+  bindHandlers() {
+    window.addEventListener(evtNext, (evt) => {
+      this.showNextScreen(evt);
+    });
+    window.addEventListener(evtBack, () => {
+      this.showBackScreen();
+    });
   }
 
   isFinishLevel(index) {
@@ -70,15 +66,6 @@ class Application {
     return this.levels[indexLevel];
   }
 
-  static showGame(userName, tasks) {
-    GameManager.createGameManager(userName, tasks).start();
-  }
-
-  static showWelcome() {
-    changeScreen(Application.getTypeScreen(LevelGame.INTRO));
-    return new Application();
-  }
-
   showBackScreen() {
     this.currentIndexLevel = this.levels.indexOf(LevelGame.GREETING);
     changeScreen(Application.getTypeScreen(LevelGame.GREETING));
@@ -86,7 +73,6 @@ class Application {
 
   showNextScreen(evt) {
     const level = this.setNextLevel();
-
     switch (level) {
       case LevelGame.GREETING: {
         this.serverData = evt.detail.data;
@@ -106,6 +92,17 @@ class Application {
       default: changeScreen(Application.getTypeScreen(level));
     }
   }
-}
 
-export {Application};
+  static getTypeScreen(level) {
+    return LevelApplicationToTypeScreen[level];
+  }
+
+  static showGame(userName, tasks) {
+    GameManager.createGameManager(userName, tasks).start();
+  }
+
+  static showWelcome() {
+    changeScreen(Application.getTypeScreen(LevelGame.INTRO));
+    return new Application();
+  }
+}

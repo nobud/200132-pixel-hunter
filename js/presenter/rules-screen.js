@@ -1,20 +1,16 @@
-import {ScreenAbstract} from './screen-abstract';
+import ScreenAbstract from './screen-abstract';
 import {createCustomEvent, evtNext} from '../util/util';
-import {RulesView} from '../view/rules-view';
+import RulesView from '../view/rules-view';
 
 class RulesScreen extends ScreenAbstract {
+  init() {
+    this.setView();
+    this.showView();
+  }
 
   initOtherHandlers() {
     this.view.onFormRulesSubmit = this.onFormRulesSubmit;
     this.view.onInputUserName = this.onInputUserName;
-  }
-
-  onFormRulesSubmit() {
-    createCustomEvent(evtNext, this.inputUserName.value.trim());
-  }
-
-  onInputUserName(evt) {
-    this.btnSubmit.disabled = !evt.target.value.trim();
   }
 
   setView() {
@@ -23,9 +19,12 @@ class RulesScreen extends ScreenAbstract {
     this.initOtherHandlers();
   }
 
-  init() {
-    this.setView();
-    this.showView();
+  onFormRulesSubmit() {
+    createCustomEvent(evtNext, this.inputUserName.value.trim());
+  }
+
+  onInputUserName(evt) {
+    this.btnSubmit.disabled = !evt.target.value.trim();
   }
 }
 

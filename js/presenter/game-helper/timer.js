@@ -1,10 +1,17 @@
 import {createCustomEvent, evtExpiredTimer, evtTickTimer} from '../../util/util';
 import getCounter from './counter';
 
-class Timer {
+export default class Timer {
   constructor(time) {
     this.counter = getCounter(time);
     this.interval = 1000;
+  }
+
+  get value() {
+    if (this.counter) {
+      return this.counter.getValue();
+    }
+    return null;
   }
 
   start() {
@@ -15,13 +22,6 @@ class Timer {
 
   stop() {
     clearTimeout(this.id);
-  }
-
-  get value() {
-    if (this.counter) {
-      return this.counter.getValue();
-    }
-    return null;
   }
 
   tick() {
@@ -42,5 +42,3 @@ class Timer {
     }
   }
 }
-
-export {Timer};

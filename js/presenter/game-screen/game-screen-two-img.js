@@ -1,13 +1,7 @@
-import {GameScreenAbstract} from './game-screen-abstract';
+import GameScreenAbstract from './game-screen-abstract';
 import {createCustomEvent, evtAnsweredTask} from '../../util/util';
 
 class GameScreenTwoImg extends GameScreenAbstract {
-  onAnswerClick() {
-    if (this.isAnswered(this.view.optionsAnswers)) {
-      createCustomEvent(evtAnsweredTask, this.getAnswer(this.view.optionsAnswers));
-    }
-  }
-
   isAnswered(optionsAnswers) {
     return optionsAnswers.every((option) => [...option].some((radio) => radio.checked));
   }
@@ -19,6 +13,12 @@ class GameScreenTwoImg extends GameScreenAbstract {
         index: indexOption
       };
     });
+  }
+
+  onAnswerClick() {
+    if (this.isAnswered(this.view.optionsAnswers)) {
+      createCustomEvent(evtAnsweredTask, this.getAnswer(this.view.optionsAnswers));
+    }
   }
 }
 

@@ -1,5 +1,7 @@
-import {Result} from '../presenter/game-helper/result';
-import {Answer} from '../model/answer';
+import Result from '../presenter/game-helper/result';
+import Answer from '../model/answer';
+
+const COUNT_LAST_RESULTS = 10;
 
 const adaptOptions = (answers) => answers.map((answer) => {
   return {
@@ -21,7 +23,6 @@ const adaptData = (tasks) => tasks.map((task) => {
 });
 
 const adaptResultStats = (user, stats) => {
-  const COUNT_LAST_RESULTS = 10;
   const results = stats.map((stat) => {
     const answers = stat.map((answer) => new Answer(answer.type));
     const result = new Result(user, answers);

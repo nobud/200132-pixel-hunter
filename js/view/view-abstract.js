@@ -1,10 +1,18 @@
 import {getElementFromTemplate} from '../util/util';
 
-class ViewAbstract {
+export default class ViewAbstract {
   constructor() {
     if (new.target === ViewAbstract) {
       throw new Error(`Can't instantiate abstract class`);
     }
+  }
+
+  get elementDOM() {
+    if (!this._elementDOM) {
+      this._elementDOM = this.render();
+      this.bindHandlers();
+    }
+    return this._elementDOM;
   }
 
   get htmlTemplate() {
@@ -15,19 +23,9 @@ class ViewAbstract {
     return getElementFromTemplate(this.htmlTemplate);
   }
 
-  onBackClick() {
-  }
-
   bindHandlers() {
   }
 
-  get elementDOM() {
-    if (!this._elementDOM) {
-      this._elementDOM = this.render();
-      this.bindHandlers();
-    }
-    return this._elementDOM;
+  onBackClick() {
   }
 }
-
-export {ViewAbstract};

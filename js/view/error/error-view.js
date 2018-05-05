@@ -1,4 +1,4 @@
-import {ViewAbstract} from '../view-abstract';
+import ViewAbstract from '../view-abstract';
 import {showElement} from '../../util/util';
 
 class ErrorView extends ViewAbstract {

@@ -1,19 +1,10 @@
-const TypeImage = {
-  PHOTO: `photo`,
-  PAINTING: `painting`,
-  UNKNOWN: `unknown`
-};
+import definition from './definition';
 
-const TypeValueToTypeImage = {
-  paint: TypeImage.PAINTING,
-  photo: TypeImage.PHOTO
-};
-
-class Option {
+export default class Option {
   constructor(option) {
     this.srcImage = option.srcImage;
     this.referenceType = option.refType;
-    this.answeredType = TypeImage.UNKNOWN;
+    this.answeredType = definition.TypeImage.UNKNOWN;
     // ширина контейнера
     this.width = option.width;
     // высота контейнера
@@ -25,12 +16,10 @@ class Option {
   }
 
   isAnswered() {
-    return this.answeredType !== TypeImage.UNKNOWN;
+    return this.answeredType !== definition.TypeImage.UNKNOWN;
   }
 
   isCorrect() {
     return this.referenceType === this.answeredType;
   }
 }
-
-export {TypeImage, TypeValueToTypeImage, Option};

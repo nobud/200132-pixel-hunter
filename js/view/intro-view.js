@@ -1,12 +1,7 @@
-import {ViewAbstract} from './view-abstract';
+import ViewAbstract from './view-abstract';
 import getFooter from './footer/footer-template';
 
-class IntroView extends ViewAbstract {
-
-  get htmlTemplate() {
-    return this.getArticle();
-  }
-
+export default class IntroView extends ViewAbstract {
   get next() {
     if (!this._next) {
       this._next = this.elementDOM.querySelector(`.intro__asterisk`);
@@ -14,13 +9,8 @@ class IntroView extends ViewAbstract {
     return this._next;
   }
 
-  onNextClick() {
-  }
-
-  bindHandlers() {
-    this.next.addEventListener(`click`, () => {
-      this.onNextClick();
-    });
+  get htmlTemplate() {
+    return this.getArticle();
   }
 
   getTemplate() {
@@ -38,6 +28,13 @@ class IntroView extends ViewAbstract {
       </div>
       ${getFooter()}`;
   }
-}
 
-export {IntroView};
+  bindHandlers() {
+    this.next.addEventListener(`click`, () => {
+      this.onNextClick();
+    });
+  }
+
+  onNextClick() {
+  }
+}

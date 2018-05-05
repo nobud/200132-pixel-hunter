@@ -195,9 +195,6 @@ export default class GameView extends ViewAbstract {
     this.cancelBack.addEventListener(`click`, () => {
       this.onCancelBackClick();
     });
-    // window.addEventListener(evtRefreshTime, (evt) => {
-    //   this.onRefreshTime(evt);
-    // });
     window.addEventListener(evtRefreshTime, () => {
       this.onRefreshTime();
     });
@@ -211,10 +208,6 @@ export default class GameView extends ViewAbstract {
 
   onAnswerClick() {
   }
-
-  // onRefreshTime(evt) {
-  //   this.gameTimer.textContent = evt.detail.data;
-  // }
 
   onRefreshTime() {
   }

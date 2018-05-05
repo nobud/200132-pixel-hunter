@@ -1,14 +1,9 @@
 import {getHeader} from './header/header-template';
 import getFooter from './footer/footer-template';
 import definition from '../model/definition';
-import {ViewAbstract} from './view-abstract';
+import ViewAbstract from './view-abstract';
 
-class RulesView extends ViewAbstract {
-
-  get htmlTemplate() {
-    return this.getArticle();
-  }
-
+export default class RulesView extends ViewAbstract {
   get formRules() {
     if (!this._formRules) {
       this._formRules = this.elementDOM.querySelector(`.rules__form`);
@@ -37,36 +32,19 @@ class RulesView extends ViewAbstract {
     return this._inputUserName;
   }
 
-  onBackClick() {
-  }
-
-  onFormRulesSubmit() {
-  }
-
-  onInputUserName() {
-  }
-
-  bindHandlers() {
-    this.back.addEventListener(`click`, () => {
-      this.onBackClick();
-    });
-    this.formRules.addEventListener(`submit`, () => {
-      this.onFormRulesSubmit();
-    });
-    this.inputUserName.addEventListener(`input`, (evt) => {
-      this.onInputUserName(evt);
-    });
+  get htmlTemplate() {
+    return this.getArticle();
   }
 
   getTemplate() {
     return `
     <h1 class="rules__title">Правила</h1>
-        <p class="rules__description">Угадай ${definition.numberOfRequiredAnswers} раз для каждого изображения фото <img
+        <p class="rules__description">Угадай ${definition.NUMBER_OF_REQUIRED_ANSWERS} раз для каждого изображения фото <img
           src="img/photo_icon.png" width="16" height="16"> или рисунок <img
           src="img/paint_icon.png" width="16" height="16" alt="">.<br>
           Фотографиями или рисунками могут быть оба изображения.<br>
-          На каждую попытку отводится ${definition.maxTimeForAnswer} секунд.<br>
-          Ошибиться можно не более ${definition.maxLives} раз.<br>
+          На каждую попытку отводится ${definition.MAX_TIME_FOR_ANSWER} секунд.<br>
+          Ошибиться можно не более ${definition.MAX_LIVES} раз.<br>
           <br>
           Готовы?
         </p>
@@ -84,6 +62,25 @@ class RulesView extends ViewAbstract {
       </div>
       ${getFooter()}`;
   }
-}
 
-export {RulesView};
+  bindHandlers() {
+    this.back.addEventListener(`click`, () => {
+      this.onBackClick();
+    });
+    this.formRules.addEventListener(`submit`, () => {
+      this.onFormRulesSubmit();
+    });
+    this.inputUserName.addEventListener(`input`, (evt) => {
+      this.onInputUserName(evt);
+    });
+  }
+
+  onBackClick() {
+  }
+
+  onFormRulesSubmit() {
+  }
+
+  onInputUserName() {
+  }
+}

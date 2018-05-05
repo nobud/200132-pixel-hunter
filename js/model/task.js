@@ -1,9 +1,8 @@
-import {EstimationTask} from '../presenter/game-helper/estimation-task';
-import {TypeAnswer} from './type-answer';
+import EstimationTask from '../presenter/game-helper/estimation-task';
 import definition from './definition';
-import {Option} from './option';
+import Option from './option';
 
-class Task {
+export default class Task {
   constructor(task) {
     this.type = task.type;
     this.text = task.text;
@@ -12,22 +11,20 @@ class Task {
     });
     this._time = 0;
     this.estimator = new EstimationTask(task.type);
-    this.isFinished = false;
-    this.typeAnswer = TypeAnswer.UNKNOWN;
-  }
-
-  set time(time) {
-    this._time = definition.maxTimeForAnswer - time;
+    this.typeAnswer = definition.TypeAnswer.UNKNOWN;
   }
 
   get time() {
     return this._time;
   }
 
+  set time(time) {
+    this._time = definition.MAX_TIME_FOR_ANSWER - time;
+  }
+
   finish(time) {
     this.time = time;
     this.setTypeAnswer(this.time);
-    this.isFinished = true;
   }
 
   setTypeAnswer(time) {
@@ -46,5 +43,3 @@ class Task {
     }
   }
 }
-
-export {Task};
