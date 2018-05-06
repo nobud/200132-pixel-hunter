@@ -2,7 +2,7 @@ import definition from '../../model/definition';
 import GameModel from '../../model/game-model';
 import Result from '../game-helper/result';
 import {changeScreen, createCustomEvent, evtAnsweredTask, evtExpiredTimer,
-  evtBack, evtNext, evtTickTimer, evtRefreshTime, evtTimerStop, evtTimerContinue, evtStartBlinkTime} from '../../util/util';
+  evtCancelGame, evtBack, evtNext, evtTickTimer, evtRefreshTime, evtTimerStop, evtTimerContinue, evtStartBlinkTime} from '../../util/util';
 import Timer from '../game-helper/timer';
 import screenGameOneImg from './game-screen-one-img';
 import screenGameTwoImg from './game-screen-two-img';
@@ -41,13 +41,9 @@ export default class GameManager {
     window.addEventListener(evtTickTimer, () => {
       this.onTick();
     });
-    window.addEventListener(evtBack, () => {
-      this.onGoToBack();
+    window.addEventListener(evtCancelGame, () => {
+      this.onCancelGame();
     });
-  }
-
-  get result() {
-    return this._result;
   }
 
   start() {
@@ -55,9 +51,12 @@ export default class GameManager {
     this.__showTask();
   }
 
+  refreshUser(userName) {
+    this.model.user = userName;
+  }
+
   __initParam() {
     this.status = TypeStatusGame.WAIT;
-    this._result = null;
     this.currentTaskIndex = -1;
   }
 
@@ -204,13 +203,19 @@ export default class GameManager {
     createCustomEvent(evtRefreshTime, time);
   }
 
-  onGoToBack() {
+  onCancelGame() {
     if (this.__isStarted()) {
       this.__reset();
     }
+    createCustomEvent(evtBack);
   }
 
-  static createGameManager(userName, data) {
-    return new GameManager(new GameModel(userName, data));
+  static getInstance(userName, data) {
+    if (!this._instance) {
+      this._instance = new GameManager(new GameModel(userName, data));
+    } else {
+      this._instance.refreshUser(userName);
+    }
+    return this._instance;
   }
 }

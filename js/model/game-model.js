@@ -12,6 +12,10 @@ export default class GameModel {
     return this._user;
   }
 
+  set user(userName) {
+    this._user = userName;
+  }
+
   getAnswers() {
     return this.state.answers;
   }

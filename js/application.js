@@ -98,7 +98,7 @@ export default class Application {
   }
 
   static showGame(userName, tasks) {
-    GameManager.createGameManager(userName, tasks).start();
+    GameManager.getInstance(userName, tasks).start();
   }
 
   static showWelcome() {

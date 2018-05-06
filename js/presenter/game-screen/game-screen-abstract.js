@@ -2,7 +2,7 @@ import ScreenAbstract from '../screen-abstract';
 import GameView from '../../view/game-view';
 import TypeValueToTypeImage from '../game-helper/adapt-types';
 import {showConfirm, closeConfirm} from '../../view/confirm/confirm';
-import {createCustomEvent, evtTimerStop, evtTimerContinue, evtStartBlinkTime, evtRefreshTime} from '../../util/util';
+import {createCustomEvent, evtCancelGame, evtTimerStop, evtTimerContinue, evtStartBlinkTime, evtRefreshTime} from '../../util/util';
 
 const DELAY_BLINK_TIMER = 200;
 
@@ -46,7 +46,7 @@ export default class GameScreenAbstract extends ScreenAbstract {
 
   onConfirmBackClick() {
     closeConfirm(this.view.modal);
-    super.onBackElementClick();
+    createCustomEvent(evtCancelGame);
   }
 
   onCancelBackClick() {
