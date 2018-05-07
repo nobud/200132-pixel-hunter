@@ -6,6 +6,7 @@ export default class Task {
   constructor(task) {
     this.type = task.type;
     this.text = task.text;
+    this.typeChooseThreeOfThree = task.typeChooseThreeOfThree;
     this.options = task.options.map((option) => {
       return new Option(option);
     });

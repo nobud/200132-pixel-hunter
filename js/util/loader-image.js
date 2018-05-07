@@ -13,11 +13,11 @@ const loadImage = (url) => {
       image.removeEventListener(`error`, onErrorLoad);
     };
     const onSuccessLoad = () => {
-      removeImageListeners(image, onSuccessLoad, onErrorLoad);
+      removeImageListeners();
       return resolve(image);
     };
     const onErrorLoad = () => {
-      removeImageListeners(image, onSuccessLoad, onErrorLoad);
+      removeImageListeners();
       return reject(new Error(`не удалось загрузить изображение: ${url}\nИгра не может быть запущена.`));
     };
     addImageListeners(image, onSuccessLoad, onErrorLoad);

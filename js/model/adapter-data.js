@@ -1,7 +1,22 @@
 import Result from '../presenter/game-helper/result';
 import Answer from '../model/answer';
+import definition from './definition';
 
 const COUNT_LAST_RESULTS = 10;
+const TEXT_CHOOSE_PAINTING = `рисунок`;
+const TEXT_CHOOSE_PHOTO = `фото`;
+
+const getTypeChooseThreeOfThree = (taskType, question) => {
+  if (taskType === definition.TypeTask.THREE_IMG) {
+    if (question.indexOf(TEXT_CHOOSE_PAINTING) >= 0) {
+      return definition.TypeImage.PAINTING;
+    }
+    if (question.indexOf(TEXT_CHOOSE_PHOTO) >= 0) {
+      return definition.TypeImage.PHOTO;
+    }
+  }
+  return -1;
+};
 
 const adaptOptions = (answers) => answers.map((answer) => {
   return {
@@ -18,6 +33,7 @@ const adaptData = (tasks) => tasks.map((task) => {
   return {
     'type': task.type,
     'text': task.question,
+    'typeChooseThreeOfThree': getTypeChooseThreeOfThree(task.type, task.question),
     'options': adaptOptions(task.answers),
   };
 });
